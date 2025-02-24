@@ -1,16 +1,16 @@
-# twitter-apis
+# twitter
 
 FIXME: description
 
 ## Installation
 
 Download from http://example.com/FIXME.
-
+s
 ## Usage
 
 FIXME: explanation
 
-    $ java -jar twitter-apis-0.1.0-standalone.jar [args]
+    $ java -jar twitter-0.1.0-standalone.jar [args]
 
 ## Options
 
