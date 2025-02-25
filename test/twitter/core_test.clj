@@ -1,6 +1,6 @@
 (ns twitter.core-test
   (:require [clojure.test :refer [deftest testing]]
-            [twitter-apis.core :as core]))
+            [twitter.core :as core]))
 
 
 (deftest test-1
