@@ -12,7 +12,7 @@
   (try
     ;; Try to start the connection
     (db/start-connection)
-    (jetty/run-jetty routes/app {:port 3000 :join? false})
+    (jetty/run-jetty routes/app-with-middleware {:port 3000 :join? false})
     (catch Exception e
       ;; Catch and handle any connection or server start errors
       (log/error "Error starting the server:" (.getMessage e)))))

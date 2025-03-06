@@ -8,7 +8,10 @@
                  [ring/ring-core "1.9.5"]
                  [ring/ring-jetty-adapter "1.9.5"]
                  [compojure "1.6.2"]
-                 [com.novemberain/monger "3.5.0"]]
+                 [com.novemberain/monger "3.5.0"]
+                 [buddy/buddy-auth "2.2.0"]
+                 [org.clojure/tools.logging "1.3.0"]
+                 [slingshot "0.12.2"]]
   :main ^:skip-aot twitter.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all

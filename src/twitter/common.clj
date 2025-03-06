@@ -1,7 +1,11 @@
 (ns twitter.common
-  (:require [clojure.java.io :as io]
-            [clojure.edn :as edn])
-  (:import (java.io PushbackReader)))
+  (:require
+   [clojure.edn :as edn]
+   [clojure.java.io :as io]
+   [clojure.tools.logging :as log]
+   [cheshire.core :as json])
+  (:import
+   (java.io PushbackReader)))
 
 
 ;; Function to load and parse the default.clj file
@@ -14,7 +18,12 @@
           (println "Config: " config)
           ;; Return the config map
           config))
-      (println "Could not find resource file"))))
+      (log/error "Could not find resource file"))))
 
 
 (def config (load-config))
+
+
+;; Function to make a json response
+(defn json-response [status message]
+  {:status status :body message})
