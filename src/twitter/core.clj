@@ -1,15 +1,18 @@
 (ns twitter.core
   (:require [ring.adapter.jetty :as jetty]
-            [clojure.pprint]))
-
-
-(defn handler [request]
-  (clojure.pprint/pprint request)
-  {:status 200
-   :headers {"Content-Type" "text/html"}
-   :body "Hello World"})
+            [clojure.pprint]
+            [twitter.routes :as routes]
+            [twitter.db :as db]
+            [clojure.tools.logging :as log]))
 
 
 (defn -main
   [& args]
-  (jetty/run-jetty handler {:port 3000}))
+  (println "Starting server...")
+  (try
+    ;; Try to start the connection
+    (db/start-connection)
+    (jetty/run-jetty routes/app-with-middleware {:port 3000 :join? false})
+    (catch Exception e
+      ;; Catch and handle any connection or server start errors
+      (log/error "Error starting the server:" (.getMessage e)))))
