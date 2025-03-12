@@ -25,5 +25,8 @@
 
 
 ;; Function to make a json response
-(defn json-response [status message]
-  {:status status :body message})
+(defn json-response [status body & [error]]
+  (let [body-map (json/generate-string body)]
+    (if error
+      {:error error :status status :body body-map}
+      {:status status :body body-map})))

@@ -1,9 +1,12 @@
 (ns twitter.routes
   (:require [compojure.core :as cj]
             [compojure.route :as cjr]
+            [ring.middleware.json :refer [wrap-json-params]]
+            [ring.middleware.params :refer [wrap-params]]
             [twitter.authentication :as auth]
             [twitter.common :as comm]
-            [twitter.status-codes :refer [http-code]]))
+            [twitter.status-codes :refer [http-code]]
+            [twitter.xhr.user :as txu]))
 
 
 (defn wrap-authentication [handler]
@@ -15,9 +18,9 @@
           (if (and claims (not (auth/is-token-expired? claims)))
             (handler request)  ; Pass the request to the handler if valid
             (comm/json-response (http-code :bad-request)
-                                "Authentication failed! Token expired or invalid.")))
+                                {:message "Authentication failed! Token expired or invalid."})))
         (comm/json-response (http-code :bad-request)
-                            "Authorization header missing.")))))
+                            {:message "Authorization header missing."})))))
 
 
 (cj/defroutes app
@@ -25,5 +28,12 @@
   (cjr/not-found "Page not found"))
 
 
-(def app-with-middleware
-  (wrap-authentication app))
+(cj/defroutes non-auth-routes
+  (cj/POST "/user/register" {params :params}  (txu/register params)))
+
+
+(def all-routes
+  (cj/routes
+   (-> non-auth-routes wrap-json-params wrap-params)
+   (wrap-authentication
+    (-> app wrap-json-params wrap-params))))
