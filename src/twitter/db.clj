@@ -1,18 +1,31 @@
 (ns twitter.db
   (:require [monger.core :as mg]
             [monger.db :as mg-db]
+            [monger.collection :as mc]
             [monger.query :as mq]
             [twitter.common :as comm]
             [slingshot.slingshot :refer [try+ throw+]]
             [clojure.tools.logging :as log]))
 
 
-(println "Mongo host from comm/config: " (:mongo-host comm/config))
-
-
 (defn start-connection []
   ;; Connect to the MongoDB server (default localhost:27017)
   (mg/connect [{:host (:mongo-host comm/config), :port (:mongo-port comm/config)}]))
+
+
+(def db (mg/get-db (start-connection) (:mongo-db comm/config)))
+
+
+(defn insert [coll-name query]
+  (mc/insert db coll-name query))
+
+
+(defn find-one [coll-name query]
+  (mc/find-one db coll-name query))
+
+
+(defn find-many [coll-name query]
+  (mc/find db coll-name query))
 
 
 ;test
