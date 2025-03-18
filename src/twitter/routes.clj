@@ -29,7 +29,8 @@
 
 
 (cj/defroutes non-auth-routes
-  (cj/POST "/user/register" {params :params}  (txu/register params)))
+  (cj/POST "/user/register" {params :params}  (txu/register params))
+  (cj/POST "/user/login" {params :params}  (txu/login params)))
 
 
 (def all-routes

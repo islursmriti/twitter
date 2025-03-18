@@ -16,3 +16,13 @@
           profile-data (if profile (json/parse-string profile true) nil)]
       (tmu/register user_id username email password profile-data)
       (auth/generate-jwt {:id user_id :username username}))))
+
+
+(defn login [{:strs [password username email]}]
+  (if (or (empty? password) (every? empty? [username email]))
+    (throw (Exception. "parameter-validation-failed"))
+    (let [[user_id username-from-db password-from-db] (tmu/login username email)]
+      (if (or (empty? user_id)
+              (not= password-from-db password))
+        (throw (Exception. "invalid-arguments"))
+        (auth/generate-jwt {:id user_id :username username-from-db})))))

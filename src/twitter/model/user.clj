@@ -20,3 +20,8 @@
                   :profile profile-data :active true
                   :followers [] :following []
                   :created-at current-time :updated-at current-time}))))
+
+
+(defn login [username email]
+  (let [user-details (user-exists? username email)]
+    [(get user-details "id") (get user-details "username") (get user-details "password")]))

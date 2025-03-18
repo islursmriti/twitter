@@ -22,3 +22,21 @@
                                    (.getMessage e))
                :else (comm/json-response (:internal-server-error http-code)
                                          {:message "Internal Server Error"})))))
+
+
+(defn login
+  [params]
+  (try (let [token (thu/login params)]
+         (comm/json-response (http-code :ok)
+                             {:message "success", :token token}))
+       (catch Exception e
+         (cond (= (.getMessage e) "parameter-validation-failed")
+               (comm/json-response (http-code :bad-request)
+                                   {:message "Password And Email/Username is Mandatory"}
+                                   (.getMessage e))
+               (= (.getMessage e) "invalid-arguments")
+               (comm/json-response (http-code :bad-request)
+                                   {:message "Username/Email Or Password Is Invalid"}
+                                   (.getMessage e))
+               :else (comm/json-response (:internal-server-error http-code)
+                                         {:message "Internal Server Error"})))))
