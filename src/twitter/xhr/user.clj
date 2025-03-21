@@ -53,3 +53,16 @@
                                    (.getMessage e))
                :else (comm/json-response (:internal-server-error http-code)
                                          {:message "Internal Server Error"})))))
+
+
+(defn update-user [user-data-from-token user-data-from-params]
+  (try (thu/update-user user-data-from-token user-data-from-params)
+       (comm/json-response (http-code :ok)
+                           {:message "success"})
+       (catch Exception e
+         (cond (= (.getMessage e) "user-doesnt-exists")
+               (comm/json-response (http-code :bad-request)
+                                   {:message "User Doesn't Exists"}
+                                   (.getMessage e))
+               :else (comm/json-response (:internal-server-error http-code)
+                                         {:message "Internal Server Error"})))))

@@ -1,5 +1,6 @@
 (ns twitter.model.user
   (:require
+   [cheshire.core :as json]
    [twitter.common :as comm]
    [twitter.db :as db]))
 
@@ -33,3 +34,17 @@
     (if (= false (get user-data "active"))
       (throw (Exception. "user-doesnt-exists"))
       (dissoc user-data "_id" "id" "password"))))
+
+
+(defn update-user [user-data-from-token update-params]
+  (let [update-time (java.util.Date/from (java.time.Instant/now))
+        update-query (-> (into {} (for [[k v] update-params]
+                                    (if (= "profile" k)
+                                      [(keyword k) (json/parse-string v)]
+                                      [(keyword k) v])))
+                         (assoc :updated-at update-time))
+        id (user-data-from-token :id)
+        username (user-data-from-token :username)]
+    (get-user id username) ;to check if user is active
+    (db/update-query (:mongo-coll-usr comm/config)
+                     {:id id} update-query)))

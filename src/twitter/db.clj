@@ -2,6 +2,7 @@
   (:require [monger.core :as mg]
             [monger.db :as mg-db]
             [monger.collection :as mc]
+            [monger.operators :as mgo]
             [monger.query :as mq]
             [twitter.common :as comm]
             [slingshot.slingshot :refer [try+ throw+]]
@@ -26,6 +27,10 @@
 
 (defn find-many [coll-name query]
   (mc/find db coll-name query))
+
+
+(defn update-query [coll-name condition query]
+  (mc/update db coll-name condition {mgo/$set query}))
 
 
 ;test

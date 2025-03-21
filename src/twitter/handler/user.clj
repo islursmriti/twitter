@@ -30,3 +30,7 @@
 
 (defn get-user [user-data]
   (tmu/get-user (user-data :id) (user-data :username)))
+
+
+(defn update-user [user-data-from-token user-data-from-params]
+  (tmu/update-user user-data-from-token user-data-from-params))
