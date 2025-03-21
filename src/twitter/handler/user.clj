@@ -34,3 +34,7 @@
 
 (defn update-user [user-data-from-token user-data-from-params]
   (tmu/update-user user-data-from-token user-data-from-params))
+
+
+(defn delete-user [user-data]
+  (tmu/delete-user (user-data :id)))

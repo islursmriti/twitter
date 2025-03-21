@@ -66,3 +66,12 @@
                                    (.getMessage e))
                :else (comm/json-response (:internal-server-error http-code)
                                          {:message "Internal Server Error"})))))
+
+
+(defn delete-user [user-data]
+  (try (thu/delete-user user-data)
+       (comm/json-response (http-code :ok)
+                           {:message "success"})
+       (catch Exception e
+         (comm/json-response (:internal-server-error http-code)
+                             {:message "Internal Server Error"}))))

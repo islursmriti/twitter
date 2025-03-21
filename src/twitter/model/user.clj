@@ -48,3 +48,8 @@
     (get-user id username) ;to check if user is active
     (db/update-query (:mongo-coll-usr comm/config)
                      {:id id} update-query)))
+
+
+(defn delete-user [id]
+  (db/update-query (:mongo-coll-usr comm/config)
+                   {:id id} {:active false}))

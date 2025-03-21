@@ -32,6 +32,7 @@
   (cj/GET "/" [] "Hello World")
   (cj/GET "/user" {headers :headers} (txu/get-user (get-user-data headers)))
   (cj/PUT "/user" {headers :headers params :params} (txu/update-user (get-user-data headers) params))
+  (cj/DELETE "/user" {headers :headers} (txu/delete-user (get-user-data headers)))
   (cjr/not-found "Page not found"))
 
 
