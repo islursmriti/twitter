@@ -26,3 +26,7 @@
               (not= password-from-db password))
         (throw (Exception. "invalid-arguments"))
         (auth/generate-jwt {:id user_id :username username-from-db})))))
+
+
+(defn get-user [user-data]
+  (tmu/get-user (user-data :id) (user-data :username)))

@@ -23,8 +23,14 @@
                             {:message "Authorization header missing."})))))
 
 
+(defn get-user-data [headers]
+  (let [token (subs (get headers "authorization") 7)]
+    (auth/decode-jwt token)))
+
+
 (cj/defroutes app
   (cj/GET "/" [] "Hello World")
+  (cj/GET "/user" {headers :headers} (txu/get-user (get-user-data headers)))
   (cjr/not-found "Page not found"))
 
 

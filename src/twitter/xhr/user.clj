@@ -40,3 +40,16 @@
                                    (.getMessage e))
                :else (comm/json-response (:internal-server-error http-code)
                                          {:message "Internal Server Error"})))))
+
+
+(defn get-user [user-data]
+  (try (let [user-data-from-db (thu/get-user user-data)]
+         (comm/json-response (http-code :ok)
+                             user-data-from-db))
+       (catch Exception e
+         (cond (= (.getMessage e) "user-doesnt-exists")
+               (comm/json-response (http-code :bad-request)
+                                   {:message "User Doesn't Exists"}
+                                   (.getMessage e))
+               :else (comm/json-response (:internal-server-error http-code)
+                                         {:message "Internal Server Error"})))))
