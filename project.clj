@@ -11,7 +11,8 @@
                  [com.novemberain/monger "3.5.0"]
                  [buddy/buddy-auth "2.2.0"]
                  [org.clojure/tools.logging "1.3.0"]
-                 [slingshot "0.12.2"]]
+                 [slingshot "0.12.2"]
+                 [ring/ring-json "0.5.1"]]
   :main ^:skip-aot twitter.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all
