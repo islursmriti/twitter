@@ -9,7 +9,8 @@
 
 
 ;; Function to load and parse the default.clj file
-(defn load-config []
+(defn load-config
+  []
   (let [env-file (io/resource "env/default.clj")]
     (if env-file
       (with-open [rdr (io/reader env-file)]
@@ -25,7 +26,8 @@
 
 
 ;; Function to make a json response
-(defn json-response [status body & [error]]
+(defn json-response
+  [status body & [error]]
   (let [body-map (json/generate-string body)]
     (if error
       {:error error :status status :body body-map}

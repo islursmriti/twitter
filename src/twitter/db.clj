@@ -5,38 +5,44 @@
             [monger.operators :as mgo]
             [monger.query :as mq]
             [twitter.common :as comm]
+            [twitter.utils :as utils]
             [slingshot.slingshot :refer [try+ throw+]]
             [clojure.tools.logging :as log]))
 
 
-(defn start-connection []
+(defn start-connection
+  []
   ;; Connect to the MongoDB server (default localhost:27017)
   (mg/connect [{:host (:mongo-host comm/config), :port (:mongo-port comm/config)}]))
 
 
-(def db (mg/get-db (start-connection) (:mongo-db comm/config)))
+(def db (mg/get-db (start-connection) (:mongo-db utils/data)))
 
 
-(defn insert [coll-name query]
+(defn insert
+  [coll-name query]
   (mc/insert db coll-name query))
 
 
-(defn find-one [coll-name query]
+(defn find-one
+  [coll-name query]
   (mc/find-one db coll-name query))
 
 
-(defn find-many [coll-name query]
+(defn find-many
+  [coll-name query]
   (mc/find db coll-name query))
 
 
-(defn update-query [coll-name condition query]
+(defn update-query
+  [coll-name condition query]
   (mc/update db coll-name condition {mgo/$set query}))
 
 
 ;test
 (comment (def db-connect (start-connection))
          (defn get-db []
-           (mg/get-db db-connect (:mongo-db comm/config)))
+           (mg/get-db db-connect (:mongo-db utils/data)))
          (defn list-collections []
            (let [db (get-db)]
              (mg-db/get-collection-names db)))
