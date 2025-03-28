@@ -9,7 +9,8 @@
             [twitter.xhr.user :as txu]))
 
 
-(defn wrap-authentication [handler]
+(defn wrap-authentication
+  [handler]
   (fn [request]
     (let [auth-header (get-in request [:headers "authorization"])]
       (if auth-header
@@ -23,7 +24,8 @@
                             {:message "Authorization header missing."})))))
 
 
-(defn get-user-data [headers]
+(defn get-user-data
+  [headers]
   (let [token (subs (get headers "authorization") 7)]
     (auth/decode-jwt token)))
 

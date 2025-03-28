@@ -7,19 +7,22 @@
 (def secret-key (:secret-key comm/config))
 
 
-(defn generate-jwt [claims]
+(defn generate-jwt
+  [claims]
   (let [payload (assoc claims :exp (+ (System/currentTimeMillis) (:token-exp-time comm/config)))]
     (jwt/sign payload secret-key)))
 
 
-(defn decode-jwt [token]
+(defn decode-jwt
+  [token]
   (try
     (jwt/unsign token secret-key)
     (catch Exception e
       (log/error "Authentication failed! Token may be invalid." (.getMessage e)))))
 
 
-(defn is-token-expired? [claims]
+(defn is-token-expired?
+  [claims]
   (let [expiration-time (:exp claims)
         current-time (System/currentTimeMillis)]
     (if (nil? expiration-time)
@@ -27,9 +30,9 @@
       (> current-time expiration-time))))  ; Check if current time is greater than expiration time
 
 
-
 ;test
-(comment (defn authenticate [token]
+(comment (defn authenticate
+           [token]
            (let [claims (decode-jwt token)]
              (when claims
                (if (is-token-expired? claims)

@@ -42,12 +42,13 @@
                                          {:message "Internal Server Error"})))))
 
 
-(defn get-user [user-data]
+(defn get-user
+  [user-data]
   (try (let [user-data-from-db (thu/get-user user-data)]
          (comm/json-response (http-code :ok)
                              user-data-from-db))
        (catch Exception e
-         (cond (= (.getMessage e) "user-doesnt-exists")
+         (cond (= (.getMessage e) "user-doesn't-exists")
                (comm/json-response (http-code :bad-request)
                                    {:message "User Doesn't Exists"}
                                    (.getMessage e))
@@ -55,12 +56,13 @@
                                          {:message "Internal Server Error"})))))
 
 
-(defn update-user [user-data-from-token user-data-from-params]
+(defn update-user
+  [user-data-from-token user-data-from-params]
   (try (thu/update-user user-data-from-token user-data-from-params)
        (comm/json-response (http-code :ok)
                            {:message "success"})
        (catch Exception e
-         (cond (= (.getMessage e) "user-doesnt-exists")
+         (cond (= (.getMessage e) "user-doesn't-exists")
                (comm/json-response (http-code :bad-request)
                                    {:message "User Doesn't Exists"}
                                    (.getMessage e))
@@ -68,7 +70,8 @@
                                          {:message "Internal Server Error"})))))
 
 
-(defn delete-user [user-data]
+(defn delete-user
+  [user-data]
   (try (thu/delete-user user-data)
        (comm/json-response (http-code :ok)
                            {:message "success"})
