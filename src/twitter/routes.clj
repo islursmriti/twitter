@@ -37,6 +37,7 @@
   (cj/PUT "/user" {headers :headers params :params} (txu/update-user (get-user-data headers) params))
   (cj/DELETE "/user" {headers :headers} (txu/delete-user (get-user-data headers)))
   (cj/POST "/tweets" {headers :headers params :params} (txt/post-tweet params (get-user-data headers)))
+  (cj/PUT "/tweets/:tweet-id" {headers :headers params :params} (txt/update-tweet params (get-user-data headers)))
   (cjr/not-found "Page not found"))
 
 

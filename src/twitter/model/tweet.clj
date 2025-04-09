@@ -16,3 +16,12 @@
                 :body {:text text :media media}
                 :created-at current-time :updated-at current-time})
     tweet-id))
+
+
+(defn update-tweet
+  [tweet-id text media {:keys [id username]}]
+  (get-user id username) ;to check if user is active
+  (let [updated-time (java.util.Date/from (java.time.Instant/now))]
+    (db/update-query (:mongo-coll-tweets utils/data)
+                     {:id tweet-id :user-id id} {:body {:text text :media media}
+                                                 :updated-at updated-time})))
