@@ -39,6 +39,10 @@
   (mc/update db coll-name condition {mgo/$set query}))
 
 
+(defn delete
+  [coll-name query]
+  (mc/remove db coll-name query))
+
 ;test
 (comment (def db-connect (start-connection))
          (defn get-db []

@@ -25,3 +25,10 @@
     (db/update-query (:mongo-coll-tweets utils/data)
                      {:id tweet-id :user-id id} {:body {:text text :media media}
                                                  :updated-at updated-time})))
+
+
+(defn delete-tweet
+  [tweet-id {:keys [id username]}]
+  (get-user id username) ;to check if user is active
+  (db/delete (:mongo-coll-tweets utils/data)
+             {:id tweet-id :user-id id}))
