@@ -40,3 +40,17 @@
   (get-user id username) ;to check if user who is viewing the tweet is active
   (dissoc (into {} (db/find-one (:mongo-coll-tweets utils/data)
                                 {:id tweet-id})) "_id" "user-id"))
+
+
+(defn post-comment
+  [tweet-id parent-id text media {:keys [id username]}]
+  (get-user id username) ;to check if user is active
+  (let [comment-id (str (:uuid-prefix-comment utils/data)
+                        (random-uuid))
+        current-time (java.util.Date/from (java.time.Instant/now))]
+    (db/insert (:mongo-coll-comments utils/data)
+               {:id comment-id :tweet-id tweet-id
+                :parent-id parent-id :user-id id
+                :body {:text text :media media}
+                :created-at current-time :updated-at current-time})
+    comment-id))

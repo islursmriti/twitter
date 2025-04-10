@@ -40,6 +40,7 @@
   (cj/PUT "/tweets/:tweet-id" {headers :headers params :params} (txt/update-tweet params (get-user-data headers)))
   (cj/DELETE "/tweets/:tweet-id" {headers :headers params :params} (txt/delete-tweet params (get-user-data headers)))
   (cj/GET "/tweets/:tweet-id" {headers :headers params :params} (txt/get-tweet-data params (get-user-data headers)))
+  (cj/POST "/tweets/:tweet-id/comments" {headers :headers params :params} (txt/post-comment params (get-user-data headers)))
   (cjr/not-found "Page not found"))
 
 
