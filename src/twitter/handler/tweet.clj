@@ -20,3 +20,8 @@
 (defn delete-tweet
   [tweet-id user-data]
   (tmt/delete-tweet tweet-id user-data))
+
+
+(defn get-tweet-data
+  [tweet-id user-data]
+  (tmt/get-tweet-data tweet-id user-data))

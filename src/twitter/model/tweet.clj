@@ -2,7 +2,8 @@
   (:require
    [twitter.utils :as utils]
    [twitter.db :as db]
-   [twitter.model.user :refer [get-user]]))
+   [twitter.model.user :refer [get-user]]
+   [clojure.edn :as edn]))
 
 
 (defn post-tweet
@@ -32,3 +33,10 @@
   (get-user id username) ;to check if user is active
   (db/delete (:mongo-coll-tweets utils/data)
              {:id tweet-id :user-id id}))
+
+
+(defn get-tweet-data
+  [tweet-id {:keys [id username]}]
+  (get-user id username) ;to check if user who is viewing the tweet is active
+  (dissoc (into {} (db/find-one (:mongo-coll-tweets utils/data)
+                                {:id tweet-id})) "_id" "user-id"))

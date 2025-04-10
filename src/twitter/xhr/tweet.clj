@@ -53,3 +53,17 @@
                                (.getMessage e))
            (comm/json-response (:internal-server-error http-code)
                                {:message "Internal Server Error"})))))
+
+
+(defn get-tweet-data
+  [{:keys [tweet-id]} user-data]
+  (try (let [tweet-data (tht/get-tweet-data tweet-id user-data)]
+         (comm/json-response (http-code :ok)
+                             {:message "success" :tweet-data tweet-data}))
+       (catch Exception e
+         (if (= (.getMessage e) "user-doesn't-exists")
+           (comm/json-response (http-code :bad-request)
+                               {:message "User Doesn't Exists"}
+                               (.getMessage e))
+           (comm/json-response (:internal-server-error http-code)
+                               {:message "Internal Server Error"})))))
