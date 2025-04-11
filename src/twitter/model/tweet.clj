@@ -54,3 +54,10 @@
                 :body {:text text :media media}
                 :created-at current-time :updated-at current-time})
     comment-id))
+
+
+(defn get-comment-data
+  [tweet-id comment-id parent-id {:keys [id username]}]
+  (get-user id username) ;to check if user who is viewing the tweet is active
+  (dissoc (into {} (db/find-one (:mongo-coll-comments utils/data)
+                                {:id comment-id :tweet-id tweet-id :parent-id parent-id})) "_id" "user-id" "id" "tweet-id" "parent-id"))

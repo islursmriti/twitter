@@ -85,3 +85,17 @@
                                    (.getMessage e))
                :else (comm/json-response (:internal-server-error http-code)
                                          {:message "Internal Server Error"})))))
+
+
+(defn get-comment-data
+  [comment-data user-data]
+  (try (let [comment-data (tht/get-comment-data comment-data user-data)]
+         (comm/json-response (http-code :ok)
+                             {:message "success" :comment-data comment-data}))
+       (catch Exception e
+         (if (= (.getMessage e) "user-doesn't-exists")
+           (comm/json-response (http-code :bad-request)
+                               {:message "User Doesn't Exists"}
+                               (.getMessage e))
+           (comm/json-response (:internal-server-error http-code)
+                               {:message "Internal Server Error"})))))

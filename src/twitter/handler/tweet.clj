@@ -32,3 +32,8 @@
   (if (or (every? empty? [text media]) (some empty? [parent-id tweet-id]))
     (throw (Exception. "parameter-validation-failed"))
     (tmt/post-comment tweet-id parent-id text (json/parse-string media) user-data)))
+
+
+(defn get-comment-data
+  [{:keys [tweet-id comment-id] :strs [parent-id]} user-data]
+  (tmt/get-comment-data tweet-id comment-id parent-id user-data))
