@@ -72,3 +72,11 @@
                       :tweet-id tweet-id :parent-id parent-id}
                      {:body {:text text :media media}
                       :updated-at updated-time})))
+
+
+(defn delete-comment
+  [tweet-id comment-id parent-id {:keys [id username]}]
+  (get-user id username) ;to check if user is active
+  (db/delete (:mongo-coll-comments utils/data)
+             {:id comment-id :tweet-id tweet-id
+              :parent-id parent-id :user-id id}))

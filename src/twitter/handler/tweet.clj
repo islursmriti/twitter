@@ -44,3 +44,8 @@
   (if (or (every? empty? [text media]) (empty? parent-id))
     (throw (Exception. "parameter-validation-failed"))
     (tmt/update-comment tweet-id comment-id parent-id text (json/parse-string media) user-data)))
+
+
+(defn delete-comment
+  [{:keys [tweet-id comment-id] :strs [parent-id]} user-data]
+  (tmt/delete-comment tweet-id comment-id parent-id user-data))
