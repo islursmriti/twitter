@@ -37,3 +37,10 @@
 (defn get-comment-data
   [{:keys [tweet-id comment-id] :strs [parent-id]} user-data]
   (tmt/get-comment-data tweet-id comment-id parent-id user-data))
+
+
+(defn update-comment
+  [{:keys [tweet-id comment-id] :strs [parent-id text media]} user-data]
+  (if (or (every? empty? [text media]) (empty? parent-id))
+    (throw (Exception. "parameter-validation-failed"))
+    (tmt/update-comment tweet-id comment-id parent-id text (json/parse-string media) user-data)))
