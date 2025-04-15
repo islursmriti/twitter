@@ -47,6 +47,7 @@
   (cj/GET "/tweets/:tweet-id/comments" {headers :headers params :params} (txt/get-comment params (get-user-data headers)))
   (cj/POST "/tweets/:tweet-id/likes" {headers :headers params :params} (txt/like-tweet params (get-user-data headers)))
   (cj/DELETE "/tweets/:tweet-id/likes" {headers :headers params :params} (txt/unlike-tweet params (get-user-data headers)))
+  (cj/GET "/tweets/:tweet-id/likes" {headers :headers params :params} (txt/get-likes params (get-user-data headers)))
   (cjr/not-found "Page not found"))
 
 

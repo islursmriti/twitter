@@ -111,3 +111,11 @@
   (get-user id username) ;to check if user is active
   (db/delete (:mongo-coll-likes utils/data)
              {:tweet-id tweet-id :parent-id parent-id :user-id id}))
+
+
+(defn get-likes
+  [tweet-id parent-id limit page {:keys [id username]}]
+  (get-user id username) ;to check if user who is viewing the likes is active
+  (map #(get (into {} %) "user-id")
+       (db/find-many (:mongo-coll-likes utils/data)
+                     {:tweet-id tweet-id :parent-id parent-id} limit (* (dec page) limit))))

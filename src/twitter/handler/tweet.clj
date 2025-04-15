@@ -70,3 +70,10 @@
   (if  (some empty? [parent-id tweet-id])
     (throw (Exception. "parameter-validation-failed"))
     (tmt/unlike-tweet tweet-id parent-id user-data)))
+
+
+(defn get-likes
+  [{:keys [tweet-id] :strs [parent-id limit page]} user-data]
+  (if  (some empty? [parent-id limit page])
+    (throw (Exception. "parameter-validation-failed"))
+    (tmt/get-likes tweet-id parent-id (Integer/parseInt limit) (Integer/parseInt page) user-data)))
