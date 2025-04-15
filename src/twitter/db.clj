@@ -30,8 +30,12 @@
 
 
 (defn find-many
-  [coll-name query]
-  (mc/find db coll-name query))
+  ([coll-name query]
+   (mc/find db coll-name query))
+  ([coll-name query limit skip]
+   (->> (mc/find db coll-name query)
+        (drop skip)
+        (take limit))))
 
 
 (defn update-query

@@ -131,3 +131,21 @@
                                (.getMessage e))
            (comm/json-response (:internal-server-error http-code)
                                {:message "Internal Server Error"})))))
+
+
+(defn get-comment
+  [page-data user-data]
+  (try (let [comments (tht/get-comment page-data user-data)]
+         (comm/json-response (http-code :ok)
+                             {:message "success" :comments comments}))
+       (catch Exception e
+         (cond  (= (.getMessage e) "parameter-validation-failed")
+                (comm/json-response (http-code :bad-request)
+                                    {:message "Parent Id, limit and page is Mandatory"}
+                                    (.getMessage e))
+                (= (.getMessage e) "user-doesn't-exists")
+                (comm/json-response (http-code :bad-request)
+                                    {:message "User Doesn't Exists"}
+                                    (.getMessage e))
+                :else (comm/json-response (:internal-server-error http-code)
+                                          {:message "Internal Server Error"})))))

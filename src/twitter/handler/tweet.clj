@@ -49,3 +49,10 @@
 (defn delete-comment
   [{:keys [tweet-id comment-id] :strs [parent-id]} user-data]
   (tmt/delete-comment tweet-id comment-id parent-id user-data))
+
+
+(defn get-comment
+  [{:keys [tweet-id] :strs [parent-id limit page]} user-data]
+  (if  (some empty? [parent-id limit page])
+    (throw (Exception. "parameter-validation-failed"))
+    (tmt/get-comment tweet-id parent-id (Integer/parseInt limit) (Integer/parseInt page) user-data)))

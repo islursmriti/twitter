@@ -80,3 +80,11 @@
   (db/delete (:mongo-coll-comments utils/data)
              {:id comment-id :tweet-id tweet-id
               :parent-id parent-id :user-id id}))
+
+
+(defn get-comment
+  [tweet-id parent-id limit page {:keys [id username]}]
+  (get-user id username) ;to check if user who is viewing the tweet is active
+  (map #(dissoc (into {} %) "_id" "user-id" "tweet-id" "parent-id")
+       (db/find-many (:mongo-coll-comments utils/data)
+                     {:tweet-id tweet-id :parent-id parent-id} limit (* (dec page) limit))))
