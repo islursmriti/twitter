@@ -88,3 +88,19 @@
   (map #(dissoc (into {} %) "_id" "user-id" "tweet-id" "parent-id")
        (db/find-many (:mongo-coll-comments utils/data)
                      {:tweet-id tweet-id :parent-id parent-id} limit (* (dec page) limit))))
+
+
+(defn get-like
+  [tweet-id parent-id user-id]
+  (db/find-one (:mongo-coll-likes utils/data)
+               {:tweet-id tweet-id :parent-id parent-id :user-id user-id}))
+
+
+(defn like-tweet
+  [tweet-id parent-id {:keys [id username]}]
+  (get-user id username) ;to check if user is active
+  (when (not (get-like tweet-id parent-id id))
+    (let [current-time (java.util.Date/from (java.time.Instant/now))]
+      (db/insert (:mongo-coll-likes utils/data)
+                 {:tweet-id tweet-id :parent-id parent-id
+                  :user-id id :created-at current-time}))))

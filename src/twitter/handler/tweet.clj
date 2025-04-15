@@ -56,3 +56,10 @@
   (if  (some empty? [parent-id limit page])
     (throw (Exception. "parameter-validation-failed"))
     (tmt/get-comment tweet-id parent-id (Integer/parseInt limit) (Integer/parseInt page) user-data)))
+
+
+(defn like-tweet
+  [{:keys [tweet-id] :strs [parent-id]} user-data]
+  (if  (some empty? [parent-id tweet-id])
+    (throw (Exception. "parameter-validation-failed"))
+    (tmt/like-tweet tweet-id parent-id user-data)))
