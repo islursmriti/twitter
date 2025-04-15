@@ -104,3 +104,10 @@
       (db/insert (:mongo-coll-likes utils/data)
                  {:tweet-id tweet-id :parent-id parent-id
                   :user-id id :created-at current-time}))))
+
+
+(defn unlike-tweet
+  [tweet-id parent-id {:keys [id username]}]
+  (get-user id username) ;to check if user is active
+  (db/delete (:mongo-coll-likes utils/data)
+             {:tweet-id tweet-id :parent-id parent-id :user-id id}))

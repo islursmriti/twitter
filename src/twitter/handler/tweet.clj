@@ -63,3 +63,10 @@
   (if  (some empty? [parent-id tweet-id])
     (throw (Exception. "parameter-validation-failed"))
     (tmt/like-tweet tweet-id parent-id user-data)))
+
+
+(defn unlike-tweet
+  [{:keys [tweet-id] :strs [parent-id]} user-data]
+  (if  (some empty? [parent-id tweet-id])
+    (throw (Exception. "parameter-validation-failed"))
+    (tmt/unlike-tweet tweet-id parent-id user-data)))

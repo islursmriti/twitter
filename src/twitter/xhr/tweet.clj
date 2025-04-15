@@ -167,3 +167,21 @@
                                     (.getMessage e))
                 :else (comm/json-response (:internal-server-error http-code)
                                           {:message "Internal Server Error"})))))
+
+
+(defn unlike-tweet
+  [tweet-data user-data]
+  (try (tht/unlike-tweet tweet-data user-data)
+       (comm/json-response (http-code :ok)
+                           {:message "success"})
+       (catch Exception e
+         (cond  (= (.getMessage e) "parameter-validation-failed")
+                (comm/json-response (http-code :bad-request)
+                                    {:message "Parent Id and Tweet Id is Mandatory"}
+                                    (.getMessage e))
+                (= (.getMessage e) "user-doesn't-exists")
+                (comm/json-response (http-code :bad-request)
+                                    {:message "User Doesn't Exists"}
+                                    (.getMessage e))
+                :else (comm/json-response (:internal-server-error http-code)
+                                          {:message "Internal Server Error"})))))
