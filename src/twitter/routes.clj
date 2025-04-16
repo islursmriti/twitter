@@ -6,7 +6,8 @@
             [twitter.authentication :as auth]
             [twitter.common :as comm]
             [twitter.status-codes :refer [http-code]]
-            [twitter.xhr.user :as txu]))
+            [twitter.xhr.user :as txu]
+            [twitter.xhr.tweet :as txt]))
 
 
 (defn wrap-authentication
@@ -35,6 +36,18 @@
   (cj/GET "/user" {headers :headers} (txu/get-user (get-user-data headers)))
   (cj/PUT "/user" {headers :headers params :params} (txu/update-user (get-user-data headers) params))
   (cj/DELETE "/user" {headers :headers} (txu/delete-user (get-user-data headers)))
+  (cj/POST "/tweets" {headers :headers params :params} (txt/post-tweet params (get-user-data headers)))
+  (cj/PUT "/tweets/:tweet-id" {headers :headers params :params} (txt/update-tweet params (get-user-data headers)))
+  (cj/DELETE "/tweets/:tweet-id" {headers :headers params :params} (txt/delete-tweet params (get-user-data headers)))
+  (cj/GET "/tweets/:tweet-id" {headers :headers params :params} (txt/get-tweet-data params (get-user-data headers)))
+  (cj/POST "/tweets/:tweet-id/comments" {headers :headers params :params} (txt/post-comment params (get-user-data headers)))
+  (cj/GET "/tweets/:tweet-id/comments/:comment-id" {headers :headers params :params} (txt/get-comment-data params (get-user-data headers)))
+  (cj/PUT "/tweets/:tweet-id/comments/:comment-id" {headers :headers params :params} (txt/update-comment params (get-user-data headers)))
+  (cj/DELETE "/tweets/:tweet-id/comments/:comment-id" {headers :headers params :params} (txt/delete-comment params (get-user-data headers)))
+  (cj/GET "/tweets/:tweet-id/comments" {headers :headers params :params} (txt/get-comment params (get-user-data headers)))
+  (cj/POST "/tweets/:tweet-id/likes" {headers :headers params :params} (txt/like-tweet params (get-user-data headers)))
+  (cj/DELETE "/tweets/:tweet-id/likes" {headers :headers params :params} (txt/unlike-tweet params (get-user-data headers)))
+  (cj/GET "/tweets/:tweet-id/likes" {headers :headers params :params} (txt/get-likes params (get-user-data headers)))
   (cjr/not-found "Page not found"))
 
 

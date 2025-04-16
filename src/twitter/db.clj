@@ -30,14 +30,22 @@
 
 
 (defn find-many
-  [coll-name query]
-  (mc/find db coll-name query))
+  ([coll-name query]
+   (mc/find db coll-name query))
+  ([coll-name query limit skip]
+   (->> (mc/find db coll-name query)
+        (drop skip)
+        (take limit))))
 
 
 (defn update-query
   [coll-name condition query]
   (mc/update db coll-name condition {mgo/$set query}))
 
+
+(defn delete
+  [coll-name query]
+  (mc/remove db coll-name query))
 
 ;test
 (comment (def db-connect (start-connection))
